@@ -1,0 +1,13 @@
+recipe: default.v1
+language: en
+pipeline:
+- name: SingleStepLLMCommandGenerator
+  llm:
+    model_group: rasa_command_generation_model
+  flow_retrieval:
+    active: false
+
+policies:
+- name: FlowPolicy
+#  - name: EnterpriseSearchPolicy
+assistant_id: 20250312-202153-chewy-canity

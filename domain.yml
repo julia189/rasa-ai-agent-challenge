@@ -1,0 +1,94 @@
+version: "3.1"
+
+slots:
+  recipient:
+    type: text
+    mappings:
+      - type: from_llm
+  amount:
+    type: float
+    mappings:
+      - type: from_llm
+  symptoms:
+    type: text
+    mappings:
+      - type: from_llm
+  nanny_date:
+    type: text
+    mappings:
+      - type: from_llm
+  nanny_time:
+    type: text
+    mappings:
+      - type: from_llm
+  nanny_hours:
+    type: float
+    mappings:
+      - type: from_llm
+
+responses:
+  utter_ask_recipient:
+    - text: "Who would you like to send money to?"
+
+  utter_ask_amount:
+    - text: "How much money would you like to send?"
+
+  utter_transfer_complete:
+    - text: "All done. {amount} has been sent to {recipient}."
+
+  utter_ask_symptoms:
+    - text: "What Syptoms does your baby have?"
+
+  utter_ask_nanny_date:
+    - text: "On which day are you looking for a baby sitter?"
+
+  utter_ask_nanny_time:
+    - text: "What time are you looking for the baby sitter?"
+
+  utter_ask_nanny_hours:
+    - text: "For how many hours should the baby sitter be available?"
+
+  utter_free_chitchat_response:
+    - text: "placeholder"
+      metadata:
+        rephrase: True
+        rephrase_prompt: |
+          The following is a conversation with an AI assistant built with Rasa.
+          The assistant can help the parents or becoming parents to get information relating birth,
+          taking care of a baby and organizing their life with the baby.
+          The assistant is helpful, creative, clever, and very friendly.
+          The user is making small talk, and the assistant should respond, keeping things light.
+          Context / previous conversation with the user:
+          {{history}}
+          {{current_input}}
+          Suggested AI Response:
+
+  run_internet_search:
+    - text: "placeholder"
+      metadata:
+        rephrase: True
+        rephrase_prompt: |
+          The following is a conversation with an AI assistant built with Rasa.
+          The assistant can help the parents or becoming parents to get information relating birth,
+          taking care of a baby and organizing their life with the baby.
+          The assistant is helpful, creative, clever, and very friendly.
+          The user is making small talk, and the assistant should respond, keeping things light.
+          Context / previous conversation with the user:
+          {{history}}
+          {{current_input}}
+          Suggested AI Response:
+
+  check_nannys_available:
+    - text: "placeholder"
+      metadata:
+        rephrase: True
+        rephrase_prompt: |
+          The following is a conversation with an AI assistant built with Rasa.
+          The assistant can help the parents or becoming parents to get information relating birth,
+          taking care of a baby and organizing their life with the baby.
+          The assistant is helpful, creative, clever, and very friendly.
+          The user is making small talk, and the assistant should respond, keeping things light.
+          Context / previous conversation with the user:
+          {{history}}
+          {{current_input}}
+          Suggested AI Response:

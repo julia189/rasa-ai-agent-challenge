@@ -1,0 +1,22 @@
+flows:
+  transfer_money:
+    description: Help users send money to friends and family.
+    steps:
+      - collect: recipient
+      - collect: amount
+        description: the number of US dollars to send
+      - action: utter_transfer_complete
+
+  research_symptoms:
+    description: Help users to find information about the symptoms their baby has.
+    steps:
+      - collect: symptoms
+      - action: run_internet_search
+
+  find_nanny:
+    description: Help users to find a nanny or babysitter service. 
+    steps:
+      - collect: nanny_date 
+      - collect: nanny_time
+      - collect: nanny_hours
+      - action: check_nannys_available

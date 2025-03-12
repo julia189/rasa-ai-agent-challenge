@@ -1,0 +1,7 @@
+.venv
+.gz
+.rasa
+*.pyc
+*.env
+*.tar.gz
+.env
