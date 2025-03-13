@@ -78,7 +78,7 @@ responses:
           {{current_input}}
           Suggested AI Response:
 
-  check_nannys_available:
+  utter_check_nannys_available:
     - text: "placeholder"
       metadata:
         rephrase: True
@@ -92,3 +92,6 @@ responses:
           {{history}}
           {{current_input}}
           Suggested AI Response:
+
+actions:
+    - check_nannys_available
