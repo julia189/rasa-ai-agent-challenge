@@ -20,3 +20,14 @@ flows:
       - collect: nanny_time
       - collect: nanny_hours
       - action: check_nannys_available
+
+  book_doctor_appointment:
+    description: Help users to find a doctor appointment for their baby/child.
+    steps: 
+      - collect: doctor_location
+      - action: get_doctor_appointment
+
+  summarize_birth_stories:
+    description: Help users to find youtube videos of birth stories and summarize them.
+    steps:
+      - action: find_youtube_videos 
