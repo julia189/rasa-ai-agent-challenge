@@ -6,20 +6,24 @@ from doctolib import get_available_doctors
 
 class ActionGetDoctorAppointment(Action):
     def name(self) -> Text:
-        return "action_get_doctor_appointment"
+        return "action_get_available_doctors"
+    
     def run(self, dispatcher, tracker, domain):
 
         doctor_location = tracker.get_slot("location")
-        doctor_name, doctor_address, next_appointment = get_available_doctors(doctor_location)
-        dispatcher.utter_template("utter_answer_doctor_appointment",tracker, doctor_location=doctor_location, 
-                                  doctor_name=doctor_name, doctor_address=doctor_address)
-
+        availability = tracker.get_slot("availability")
+        top_3_doctors_df = get_available_doctors(location=doctor_location, availabilities=availability)
+        dispatcher.utter_message(text=f"Here are three doctors that are available: {top_3_doctors_df}")
+#rasa run actions
 
 class ActionCheckAvailableNannys(Action):
     def name(self) -> Text:
         return "action_check_nannys_available"
     
-    def run(self, dispatcher, tracker, domain):
+    def run(self, 
+            dispatcher: CollectingDispatcher, 
+            tracker: Tracker, 
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
         date_ = tracker.get_slot("nanny_date")
         nanny_time = tracker.get_lot("nanny_time")

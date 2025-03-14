@@ -55,6 +55,9 @@ responses:
   utter_ask_doctor_location:
     - text: "In what location should the doctor be available?"
 
+  utter_answer_available_doctors:
+    - text: ""
+
   utter_free_chitchat_response:
     - text: "placeholder"
       metadata:
@@ -102,6 +105,6 @@ responses:
 
 actions:
     - check_nannys_available
-    - get_doctor_appointment
+    - action_get_available_doctors
     - find_youtube_videos
 
