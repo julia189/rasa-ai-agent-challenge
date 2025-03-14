@@ -30,7 +30,7 @@ Based on RASAS Quickstart project. Find here:
      ```
      GitHub will show a notification, click on the green button to view the inspector where you can chat with your assistant.
 
-**Run Custom Actions:**
+c**Run Custom Actions:**
   In Rasa 3.10 and later, custom actions are automatically run as part of your running assistant. To double-check that this is set up correctly, ensure that your `endpoints.yml` file contains the following configuration:
    ```
    action_endpoint:
