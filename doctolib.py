@@ -1,11 +1,12 @@
 import requests
+import json
+from typing import Union
 
-def get_available_doctors():
+
+def get_available_doctors(location: Union[str,int], availabilities: Union[str,int]):
 
     base_url='https://www.doctolib.de'
     speciality='kinderheilkunde-kinder-und-jugendmedizin'
-    location='muenchen'
-    availabilities='test'
 
     final_url=f"{base_url}/{speciality}/{location}?/availabilities={availabilities}&insurance_sector=public"
 
@@ -20,6 +21,12 @@ def get_available_doctors():
     headers = dict(line.strip().split(': ', 1) for line in headers.strip().split('\n') if ': ' in line)
 
     result=requests.get(final_url,headers=headers).json()
-    return result
+    result_data = dict(json.loads(json.dumps(result)))['data']['doctors']
+    result_dict = {result_data[0]['name_with_title'] : result_data[0]['address'],
+                   result_data[1]['name_with_title']: result_data[1]['address'],
+                   result_data[2]['name_with_title']: result_data[2]['address']
+                   }
+    
+    return result_dict
 
-get_available_doctors()
+print(get_available_doctors(location='muenchen', availabilities='test'))
