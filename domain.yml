@@ -25,6 +25,10 @@ slots:
     type: float
     mappings:
       - type: from_llm
+  doctor_location:
+    type: text
+    mappings:
+      - type: from_llm
 
 responses:
   utter_ask_recipient:
@@ -47,6 +51,9 @@ responses:
 
   utter_ask_nanny_hours:
     - text: "For how many hours should the baby sitter be available?"
+
+  utter_ask_doctor_location:
+    - text: "In what location should the doctor be available?"
 
   utter_free_chitchat_response:
     - text: "placeholder"
@@ -95,3 +102,6 @@ responses:
 
 actions:
     - check_nannys_available
+    - get_doctor_appointment
+    - find_youtube_videos
+

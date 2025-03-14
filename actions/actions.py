@@ -2,6 +2,17 @@ from typing import Any, Text, Dict, List
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet
+from doctolib import get_available_doctors
+
+class ActionGetDoctorAppointment(Action):
+    def name(self) -> Text:
+        return "action_get_doctor_appointment"
+    def run(self, dispatcher, tracker, domain):
+
+        doctor_location = tracker.get_slot("location")
+        doctor_name, doctor_address, next_appointment = get_available_doctors(doctor_location)
+        dispatcher.utter_template("utter_answer_doctor_appointment",tracker, doctor_location=doctor_location, 
+                                  doctor_name=doctor_name, doctor_address=doctor_address)
 
 
 class ActionCheckAvailableNannys(Action):
@@ -9,6 +20,11 @@ class ActionCheckAvailableNannys(Action):
         return "action_check_nannys_available"
     
     def run(self, dispatcher, tracker, domain):
+
+        date_ = tracker.get_slot("nanny_date")
+        nanny_time = tracker.get_lot("nanny_time")
+        nanny_hours = tracker.get_slot("nanny_hours")
+
         return super().run(dispatcher, tracker, domain)
 
 class ActionCheckSufficientFunds(Action):
