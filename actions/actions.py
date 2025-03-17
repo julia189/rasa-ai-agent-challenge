@@ -8,12 +8,15 @@ class ActionGetDoctorAppointment(Action):
     def name(self) -> Text:
         return "action_get_available_doctors"
     
-    def run(self, dispatcher, tracker, domain):
+    def run(self, dispatcher, tracker, domain) -> List[Dict[Text, Any]]:
 
-        doctor_location = tracker.get_slot("location")
-        availability = tracker.get_slot("availability")
+        doctor_location = tracker.get_slot("doctor_location")
+        availability = 1
         top_3_doctors_df = get_available_doctors(location=doctor_location, availabilities=availability)
-        dispatcher.utter_message(text=f"Here are three doctors that are available: {top_3_doctors_df}")
+          
+        results_readable = "\n".join(["Name: " + doctor_['name'] + "Address: " + doctor_['address'] for _, doctor_ in top_3_doctors_df.iterrows()])
+        dispatcher.utter_message(text=f"Here are three doctors that are available \n: {results_readable}")
+        return [SlotSet("doctors_search_results_readable", str(results_readable))]
 #rasa run actions
 
 class ActionCheckAvailableNannys(Action):

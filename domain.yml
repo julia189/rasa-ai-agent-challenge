@@ -29,6 +29,12 @@ slots:
     type: text
     mappings:
       - type: from_llm
+  search_doctor_answer:
+    type: text
+    mappings:
+      - type: from_llm
+  doctors_search_results_readable:
+    type: text
 
 responses:
   utter_ask_recipient:
@@ -57,6 +63,9 @@ responses:
 
   utter_answer_available_doctors:
     - text: ""
+
+  utter_ask_search_doctor_answer:
+   -  text: "Do you want to search for an available doctor?"
 
   utter_free_chitchat_response:
     - text: "placeholder"

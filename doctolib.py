@@ -21,7 +21,6 @@ def get_available_doctors(location: Union[str,int], availabilities: Union[str,in
     user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36
     x-csrf-token: +AD1NNffpu2TUGR+i552cv/SJOdpo7KzgJOwVBys6r3/EBA3AwlvUidQ0R+FVeD3cUpNqeH+LYB2447FTjv7Rg=="""
     headers = dict(line.strip().split(': ', 1) for line in headers.strip().split('\n') if ': ' in line)
-    time.sleep(20)
     result=requests.get(final_url,headers=headers).json()
     result_data = dict(json.loads(json.dumps(result)))['data']['doctors']
 

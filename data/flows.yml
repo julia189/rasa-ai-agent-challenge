@@ -1,17 +1,18 @@
 flows:
-  transfer_money:
-    description: Help users send money to friends and family.
-    steps:
-      - collect: recipient
-      - collect: amount
-        description: the number of US dollars to send
-      - action: utter_transfer_complete
-
   research_symptoms:
     description: Help users to find information about the symptoms their baby has.
     steps:
       - collect: symptoms
       - action: run_internet_search
+      - action: utter_ask_search_doctor_answer
+      - collect: search_doctor_answer
+      #- next:
+       # - if: "slots.search_doctor_answer" = 'yes'
+        #- then:
+         # - collect: doctor_location
+          #- action: action_get_available_doctors
+        #- else:
+
 
   find_nanny:
     description: Help users to find a nanny or babysitter service. 
@@ -26,6 +27,7 @@ flows:
     steps: 
       - collect: doctor_location
       - action: action_get_available_doctors
+      - 
 
   summarize_birth_stories:
     description: Help users to find youtube videos of birth stories and summarize them.
