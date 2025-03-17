@@ -34,6 +34,20 @@ class ActionCheckAvailableNannys(Action):
 
         return super().run(dispatcher, tracker, domain)
 
+
+class ActionGetYoutubeVideos(Action):
+    def name(self) -> Text:
+        return "action_find_youtube_videos"
+
+    def run(self, 
+            dispatcher: CollectingDispatcher, 
+            tracker: Tracker, 
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+        search_string = tracker.get_slot("youtube_search_string")
+        
+
+
 class ActionCheckSufficientFunds(Action):
     def name(self) -> Text:
         return "action_check_sufficient_funds"

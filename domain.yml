@@ -115,5 +115,6 @@ responses:
 actions:
     - check_nannys_available
     - action_get_available_doctors
-    - find_youtube_videos
+    - action_find_youtube_videos
+    - run_internet_search
 
