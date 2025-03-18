@@ -47,6 +47,13 @@ class ActionGetYoutubeVideos(Action):
         search_string = tracker.get_slot("youtube_search_string")
         
 
+class ActionGetBabyDataResponse(Action):
+    def name(self) -> Text:
+        return "action_get_baby_data_response"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker,domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+            baby_data_request = tracker.get_slot("baby_data_request")
+            
 
 class ActionCheckSufficientFunds(Action):
     def name(self) -> Text:

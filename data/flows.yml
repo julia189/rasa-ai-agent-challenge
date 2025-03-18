@@ -15,7 +15,13 @@ flows:
               - action: utter_free_chitchat_response
                 next: END
 
-        
+  get_baby_data:
+    description: Show data from the Baby App the user is using regarding food intake, digestion, sleep and other facts.
+    steps:
+      - collect: baby_data_request
+      - action: action_get_baby_data_response
+        next: END
+  
 
   find_nanny:
     description: Help users to find a nanny or babysitter service. 
@@ -30,6 +36,7 @@ flows:
     steps: 
       - collect: doctor_location
       - action: action_get_available_doctors
+     # - collect: utter_ask_which_doctor_to_pick
 
   summarize_birth_stories:
     description: Help users to find youtube videos of birth stories and summarize them.
