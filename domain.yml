@@ -37,6 +37,7 @@ slots:
     type: text
 
 responses:
+
   utter_ask_recipient:
     - text: "Who would you like to send money to?"
 
@@ -66,6 +67,11 @@ responses:
 
   utter_ask_search_doctor_answer:
    -  text: "Do you want to search for an available doctor?"
+      buttons:
+      - title: "yes"
+        payload: "yes"
+      - title: "no"
+        payload: "no"
 
   utter_free_chitchat_response:
     - text: "placeholder"
@@ -96,6 +102,7 @@ responses:
           {{history}}
           {{current_input}}
           Suggested AI Response:
+      
 
   utter_check_nannys_available:
     - text: "placeholder"

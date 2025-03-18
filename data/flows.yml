@@ -6,13 +6,16 @@ flows:
       - action: run_internet_search
       - action: utter_ask_search_doctor_answer
       - collect: search_doctor_answer
-      #- next:
-       # - if: "slots.search_doctor_answer" = 'yes'
-        #- then:
-         # - collect: doctor_location
-          #- action: action_get_available_doctors
-        #- else:
+        next:
+          - if: slots.search_doctor_answer = "yes" or slots.search_doctor_answer = "ok"
+            then: 
+              - call: book_doctor_appointment
+                next: END
+          - else: 
+              - action: utter_free_chitchat_response
+                next: END
 
+        
 
   find_nanny:
     description: Help users to find a nanny or babysitter service. 
@@ -27,9 +30,8 @@ flows:
     steps: 
       - collect: doctor_location
       - action: action_get_available_doctors
-      - 
 
   summarize_birth_stories:
     description: Help users to find youtube videos of birth stories and summarize them.
     steps:
-      - action: find_youtube_videos 
+      - action: action_find_youtube_videos 
