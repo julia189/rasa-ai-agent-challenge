@@ -22,6 +22,13 @@ flows:
       - action: action_get_baby_data_response
         next: END
   
+  find_best_product:
+    description: Find offers of a product the user searches and its review and price. 
+    steps:
+      - collect: searched_product
+      - collect: retailer 
+    
+
 
   find_nanny:
     description: Help users to find a nanny or babysitter service. 
@@ -33,9 +40,14 @@ flows:
 
   book_doctor_appointment:
     description: Help users to find a doctor appointment for their baby/child.
+    nlu_trigger:
+      - intent:
+          name: doctor_neeeded
+          confidence_threshold: 0.7
     steps: 
       - collect: doctor_location
       - action: action_get_available_doctors
+        next: END
      # - collect: utter_ask_which_doctor_to_pick
 
   summarize_birth_stories:

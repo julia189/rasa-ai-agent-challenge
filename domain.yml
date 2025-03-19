@@ -39,6 +39,20 @@ slots:
       - type: from_llm
   doctors_search_results_readable:
     type: text
+  search_product:
+    type: text
+    mappings:
+      - type: from_llm
+  retailer: 
+    type: categorical
+    values:
+      - Amazon
+      - Ebay
+      - Mediamarkt
+  searched_product:
+    type: text
+    mappings:
+      - type: from_llm
 
 responses:
 
@@ -69,6 +83,9 @@ responses:
   utter_ask_doctor_location:
     - text: "In what location should the doctor be available?"
 
+  utter_ask_retailer:
+    - text: "On which retailer would you like to search?"
+
   utter_answer_available_doctors:
     - text: ""
 
@@ -79,6 +96,13 @@ responses:
         payload: "yes"
       - title: "no"
         payload: "no"
+  
+  utter_ask_searched_product:
+    - text: "What product are you looking for? "
+      metadata:
+        rephrase: True 
+
+
 
   utter_free_chitchat_response:
     - text: "placeholder"
