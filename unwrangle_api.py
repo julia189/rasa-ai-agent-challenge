@@ -2,6 +2,8 @@ import requests
 import os
 import json
 import pandas as pd 
+from oxylabs import RealtimeClient
+import pprint
 
 UNWRANGLE_API_KEY = os.getenv('UNWRANGLE_API_KEY')
 
@@ -34,3 +36,38 @@ def get_products(search_word: str, retailer: str, n_search_results: int, sorting
 
 #print(get_products("baby phone", retailer='amazon', n_search_results=3, sorting_attribute='rating'))
 print(int(2.3))
+
+def create_oxylab_client():
+    OXYLABS_USERNAME = os.getenv("OXYLABS_USERNAME")
+    OXYLABS_PASSWORD = os.getenv("OXYLABS_PASSWORD")
+    oxy_client = RealtimeClient(OXYLABS_USERNAME, OXYLABS_PASSWORD)
+    return oxy_client
+
+def search_products(search_query: str, retailer: str, n_search_results: int, sorting_attribute:str):
+
+    source_mapping = {
+        'amazon': "amazon_search"
+    }
+
+    payload = {
+    'source': source_mapping[retailer],
+    'query': search_query,
+    'domain': 'de',
+   # 'geo_location': '90210',
+    'start_page': '1',
+    'pages': '2',
+    'parse': True
+    }
+
+    USER_NAME = os.getenv("OXYLABS_USERNAME")
+    PASSWORD = os.getenv("OXYLABS_PASSWORD")
+
+    response = requests.request(
+    'POST',
+    'https://realtime.oxylabs.io/v1/queries',
+    auth=(USER_NAME, PASSWORD),
+    json=payload,
+)   
+
+    # Print prettified response to stdout.
+    pprint(response.json())
