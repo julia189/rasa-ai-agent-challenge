@@ -28,15 +28,11 @@ slots:
       #  entity: current_location
       - type: from_llm
   search_doctor_answer:
-    type: text
+    type: bool
     mappings:
       - type: from_llm
   doctors_search_results_readable:
     type: text
-  search_product:
-    type: text
-    mappings:
-      - type: from_llm
   retailer: 
     type: categorical
     values:
@@ -57,7 +53,7 @@ slots:
     mappings:
       - type: from_llm
   summary_required:
-    type: text
+    type: bool
     mappings:
       - type: from_llm
   video_content:
@@ -87,9 +83,9 @@ responses:
     - text: "Do you want a summary of this video?"
       buttons:
       - title: "Yes"
-        payload: "yes"
+        payload: "/SetSlots(summary_required=True)"
       - title: "No"
-        payload: "no"
+        payload: "/SetSlots(summary_required=False)"
 
   utter_ask_nanny_date:
     - text: "On which day are you looking for a baby sitter?"
@@ -107,11 +103,11 @@ responses:
     - text: "On which retailer would you like to search?"
       buttons:
       - title: "Amazon"
-        payload: "Amazon"
+        payload: "/SetSlots(retailer=Amazon)"
       - title: "Ebay"
-        payload: "Ebay"
+        payload: "/SetSlots(retailer=Ebay)"
       - title: "Mediamarkt"
-        payload: "Mediamarkt"
+        payload: "/SetSlots(retailer=Mediamarkt)"
 
   utter_answer_available_doctors:
     - text: ""
@@ -119,10 +115,10 @@ responses:
   utter_ask_search_doctor_answer:
    -  text: "Do you want to search for an available doctor?"
       buttons:
-      - title: "yes"
-        payload: "yes"
-      - title: "no"
-        payload: "no"
+      - title: "Yes"
+        payload: "/SetSlots(search_doctor_answer=True)"
+      - title: "No"
+        payload: "/SetSlots(search_doctor_answer=False)"
   
   utter_ask_searched_product:
     - text: "What product are you looking for? "

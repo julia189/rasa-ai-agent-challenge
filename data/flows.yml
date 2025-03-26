@@ -7,7 +7,7 @@ flows:
       - action: utter_ask_search_doctor_answer
       - collect: search_doctor_answer
         next:
-          - if: slots.search_doctor_answer = "yes" or slots.search_doctor_answer = "ok"
+          - if: slots.search_doctor_answer
             then: 
               - call: book_doctor_appointment
                 next: END
@@ -41,10 +41,6 @@ flows:
 
   book_doctor_appointment:
     description: Help users to find a doctor appointment for their baby/child.
-    nlu_trigger:
-      - intent:
-          name: doctor_neeeded
-          confidence_threshold: 0.7
     steps: 
       - collect: doctor_location
         description: "The user's current city"
@@ -66,7 +62,7 @@ flows:
       - action: utter_ask_summary_required
       - collect: summary_required
         next:
-          - if: slots.summary_required = "yes" or slots.summary_required = "ok"
+          - if: slots.summary_required
             then: 
               - action: action_summarize_youtube_video
                 next: END
@@ -74,7 +70,7 @@ flows:
               - action: utter_free_chitchat_response
                 next: END
 
-  pattern_search:
-    description: Handle knowledge-based questions.
-    steps:
-      - action: action_trigger_search
+  #pattern_search:
+   # description: Handle knowledge-based questions.
+    #steps:
+     # - action: action_trigger_search
