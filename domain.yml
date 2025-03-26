@@ -1,14 +1,6 @@
 version: "3.1"
 
 slots:
-  recipient:
-    type: text
-    mappings:
-      - type: from_llm
-  amount:
-    type: float
-    mappings:
-      - type: from_llm
   baby_data_request:
     type: text
     mappings:
@@ -32,6 +24,8 @@ slots:
   doctor_location:
     type: text
     mappings:
+     # - type: from_entity
+      #  entity: current_location
       - type: from_llm
   search_doctor_answer:
     type: text
@@ -53,6 +47,7 @@ slots:
     type: text
     mappings:
       - type: from_llm
+      #TODO: take also from entity, so at any point in the conversation
 
 responses:
 
@@ -85,6 +80,13 @@ responses:
 
   utter_ask_retailer:
     - text: "On which retailer would you like to search?"
+      buttons:
+      - title: "Amazon"
+        payload: "Amazon"
+      - title: "Ebay"
+        payload: "Ebay"
+      - title: "Mediamarkt"
+        payload: "Mediamarkt"
 
   utter_answer_available_doctors:
     - text: ""

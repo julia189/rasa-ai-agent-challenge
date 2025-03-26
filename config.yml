@@ -6,8 +6,12 @@ pipeline:
     model_group: rasa_command_generation_model
   flow_retrieval:
     active: false
+- name: NLUCommandAdapter
+  user_input:
+    max_characters: 420
 
 policies:
 - name: FlowPolicy
 #  - name: EnterpriseSearchPolicy
 assistant_id: 20250312-202153-chewy-canity
+

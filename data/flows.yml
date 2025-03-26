@@ -24,9 +24,14 @@ flows:
   
   find_best_product:
     description: Find offers of a product the user searches and its review and price. 
+    nlu_trigger:
+      - intent:
+          name: product_search
+          confidence_threshold: 0.3
     steps:
       - collect: searched_product
       - collect: retailer 
+      
     
 
 
@@ -46,6 +51,12 @@ flows:
           confidence_threshold: 0.7
     steps: 
       - collect: doctor_location
+        description: "The user's current city"
+      #- action: action_check_valid_location
+        #next:
+        #- if: slots.location_is_valid
+        #  then:
+         #   - set_slots: doctor_location
       - action: action_get_available_doctors
         next: END
      # - collect: utter_ask_which_doctor_to_pick
