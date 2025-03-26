@@ -1,6 +1,10 @@
 version: "3.1"
 
 slots:
+  is_correct_location:
+    type: bool
+    mappings:
+      - type: from_llm
   baby_data_request:
     type: text
     mappings:
@@ -33,6 +37,10 @@ slots:
       - type: from_llm
   doctors_search_results_readable:
     type: text
+  is_postcode:
+    type: bool
+    mappings:
+      - type: from_llm
   retailer: 
     type: categorical
     values:
@@ -86,7 +94,6 @@ responses:
         payload: "/SetSlots(summary_required=True)"
       - title: "No"
         payload: "/SetSlots(summary_required=False)"
-
   utter_ask_nanny_date:
     - text: "On which day are you looking for a baby sitter?"
 
@@ -129,6 +136,14 @@ responses:
     - text: "What should the video be about?"
       metadata:
         repphrase: True
+
+  utter_is_correct_location:
+    - text: "Did you mean {slots.doctor_location}?"
+      buttons:
+      - title: "Yes"
+        payload: "/SetSlots(is_correct_location=True)"
+      - title: "No"
+        payload: "/SetSlots(is_correct_location=False)"
 
   utter_free_chitchat_response:
     - text: "placeholder"
@@ -175,6 +190,9 @@ responses:
           {{history}}
           {{current_input}}
           Suggested AI Response:
+  
+utter_sorry_missunderstood:
+  - text: "Sorry I cannot process your input because it seems to be invalid. Can you please try again?"
 
 actions:
     - check_nannys_available
@@ -184,4 +202,5 @@ actions:
     - run_internet_search
     - action_get_product_response
     - action_summarize_youtube_video
+    - action_check_if_postcode
 
