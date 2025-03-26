@@ -2,8 +2,9 @@ from typing import Any, Text, Dict, List
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet
-from doctolib import get_available_doctors
+from doctolib import get_available_doctors, get_city_from_postcode
 from unwrangle_api import get_products
+import re
 
 class ActionGetDoctorAppointment(Action):
     def name(self) -> Text:
@@ -14,9 +15,12 @@ class ActionGetDoctorAppointment(Action):
         doctor_location = tracker.get_slot("doctor_location")
         availability = 1
         top_3_doctors_df = get_available_doctors(location=doctor_location, availabilities=availability)
-          
-        results_readable = "\n".join(["Name: " + doctor_['name'] + "Address: " + doctor_['address'] for _, doctor_ in top_3_doctors_df.iterrows()])
-        dispatcher.utter_message(text=f"Here are three doctors that are available \n: {results_readable}")
+
+        if top_3_doctors_df is not None:
+            results_readable = "\n".join(["Name: " + doctor_['name'] + "Address: " + doctor_['address'] for _, doctor_ in top_3_doctors_df.iterrows()])
+            dispatcher.utter_message(text=f"Here are three doctors that are available \n: {results_readable}")
+        else:
+            dispatcher.utter_message(text=f"I'm sorry something did not work out, please try again.")
         return [SlotSet("doctors_search_results_readable", str(results_readable))]
 #rasa run actions
 
@@ -43,6 +47,22 @@ class ActionGetProductResponse(Action):
 #class ActionGetProductReview(Action):
  #  pass 
 
+class ActionCheckIfPostcode(Action):
+    def name(self) -> Text:
+        return "action_check_if_postcode"
+    
+    def run(self, 
+            dispatcher: CollectingDispatcher, 
+            tracker: Tracker, 
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+        doctor_location = tracker.get_slot("doctor_location")
+        if isinstance(doctor_location, int):
+            if _is_valid_postcode(doctor_location):
+                city = get_city_from_postcode(doctor_location).split(',')[1]
+                location_postcode_string = '-'.join(doctor_location, city)
+                return[SlotSet("is_postcode", True), SlotSet("doctor_location", location_postcode_string)]
+        dispatcher.utter_message(text=f"Did you mean {location_postcode_string}?")
 
 
 class ActionCheckAvailableNannys(Action):
@@ -82,3 +102,6 @@ class ActionGetBabyDataResponse(Action):
             
 
 
+def _is_valid_postcode(postcode):
+    pattern = r'^\d{5}?$'  
+    return bool(re.match(pattern, postcode))
