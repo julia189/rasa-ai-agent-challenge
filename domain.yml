@@ -56,6 +56,14 @@ slots:
     initial_value: rating
     mappings:
       - type: from_llm
+  summary_required:
+    type: text
+    mappings:
+      - type: from_llm
+  video_content:
+    type: text
+    mappings:
+      - type: from_llm
 
 
 responses:
@@ -74,6 +82,14 @@ responses:
 
   utter_ask_symptoms:
     - text: "What Syptoms does your baby have?"
+
+  utter_ask_summary_required:
+    - text: "Do you want a summary of this video?"
+      buttons:
+      - title: "Yes"
+        payload: "yes"
+      - title: "No"
+        payload: "no"
 
   utter_ask_nanny_date:
     - text: "On which day are you looking for a baby sitter?"
@@ -113,7 +129,10 @@ responses:
       metadata:
         rephrase: True 
 
-
+  utter_ask_video_content:
+    - text: "What should the video be about?"
+      metadata:
+        repphrase: True
 
   utter_free_chitchat_response:
     - text: "placeholder"
@@ -168,4 +187,5 @@ actions:
     - action_get_baby_data_response
     - run_internet_search
     - action_get_product_response
+    - action_summarize_youtube_video
 

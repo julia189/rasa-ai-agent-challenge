@@ -57,7 +57,24 @@ flows:
         next: END
      # - collect: utter_ask_which_doctor_to_pick
 
-  summarize_birth_stories:
-    description: Help users to find youtube videos of birth stories and summarize them.
+  get_youtube_video_summary:
+    description: Help users to find youtube videos on relevant topic regarding pregnancy, birth, baby products etc. and to summarize the content of the videos.
     steps:
-      - action: action_find_youtube_videos 
+      - action: utter_ask_video_content
+      - collect: video_content
+      - action: action_find_youtube_videos
+      - action: utter_ask_summary_required
+      - collect: summary_required
+        next:
+          - if: slots.summary_required = "yes" or slots.summary_required = "ok"
+            then: 
+              - action: action_summarize_youtube_video
+                next: END
+          - else: 
+              - action: utter_free_chitchat_response
+                next: END
+
+  pattern_search:
+    description: Handle knowledge-based questions.
+    steps:
+      - action: action_trigger_search
