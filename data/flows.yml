@@ -39,19 +39,33 @@ flows:
       - collect: nanny_hours
       - action: check_nannys_available
 
+
   book_doctor_appointment:
     description: Help users to find a doctor appointment for their baby/child.
     steps: 
       - collect: doctor_location
-        description: "The user's current city"
-      #- action: action_check_valid_location
-        #next:
-        #- if: slots.location_is_valid
-        #  then:
-         #   - set_slots: doctor_location
-      - action: action_get_available_doctors
-        next: END
-     # - collect: utter_ask_which_doctor_to_pick
+        description: "The user's current city or where he wants to book a doctor appointment"
+        reset_after_flow_ends: True
+      - action: action_check_if_postcode
+        next:
+          - if: slots.is_postcode
+            then:
+              - action: utter_is_correct_location 
+              - collect: is_correct_location
+                reset_after_flow_ends: True
+                next:
+                  - if: slots.is_correct_location
+                    then: 
+                      - action: action_get_available_doctors
+                        next: END
+                  - else: 
+                      - action: action_default_fallback
+                      - action: utter_sorry_missunderstood
+                        next: END
+          - else:
+              - action: action_get_available_doctors
+                next: END
+            #next: collect: utter_ask_which_doctor_to_pick
 
   get_youtube_video_summary:
     description: Help users to find youtube videos on relevant topic regarding pregnancy, birth, baby products etc. and to summarize the content of the videos.
