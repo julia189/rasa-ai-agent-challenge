@@ -23,17 +23,13 @@ flows:
         next: END
   
   find_best_product:
-    description: Find offers of a product the user searches and its review and price. 
-    nlu_trigger:
-      - intent:
-          name: product_search
-          confidence_threshold: 0.3
+    description: Find products the user searches on Amazon. Show information about the price, ratings and whether is available on Prime.
     steps:
       - collect: searched_product
       - collect: retailer 
+      - action: action_get_product_response 
+        next: END
       
-    
-
 
   find_nanny:
     description: Help users to find a nanny or babysitter service. 

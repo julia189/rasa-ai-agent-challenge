@@ -3,6 +3,7 @@ from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet
 from doctolib import get_available_doctors
+from unwrangle_api import get_products
 
 class ActionGetDoctorAppointment(Action):
     def name(self) -> Text:
@@ -18,6 +19,29 @@ class ActionGetDoctorAppointment(Action):
         dispatcher.utter_message(text=f"Here are three doctors that are available \n: {results_readable}")
         return [SlotSet("doctors_search_results_readable", str(results_readable))]
 #rasa run actions
+
+
+class ActionGetProductResponse(Action):
+    def name(self) -> Text:
+        return "action_get_product_response"
+    
+    def run(self, dispatcher, tracker, domain) -> List[Dict[Text, Any]]:
+        
+        searched_product_string = tracker.get_slot("searched_product")
+        retailer = tracker.get_slot("retailer")
+        n_search_results = tracker.get_slot('n_search_result')
+        sorting_attribute = tracker.get_slot('sorting_attribute')
+    
+        products_df = get_products(search_word=searched_product_string, retailer=retailer,  n_search_results=n_search_results, sorting_attribute=sorting_attribute)
+        buttons = []
+        products_df['url'].apply(lambda value_ : buttons.append({"title" : "Buy product", "payload": value_}))
+
+        dispatcher.utter_message(buttons=buttons)
+        
+class ActionGetProductReview(Action):
+    pass 
+
+
 
 class ActionCheckAvailableNannys(Action):
     def name(self) -> Text:

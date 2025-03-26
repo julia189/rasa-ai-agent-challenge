@@ -158,4 +158,5 @@ actions:
     - action_find_youtube_videos
     - action_get_baby_data_response
     - run_internet_search
+    - action_get_product_response
 
