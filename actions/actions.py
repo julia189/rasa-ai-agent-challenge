@@ -37,10 +37,7 @@ class ActionGetProductResponse(Action):
             n_search_results = int(n_search_results)
     
         products_df = get_products(search_word=searched_product_string, retailer=retailer,  n_search_results=n_search_results, sorting_attribute=sorting_attribute)
-        buttons = []
-        products_df['url'].apply(lambda value_ : buttons.append({"title" : "Buy product", "payload": value_}))
-
-        dispatcher.utter_message(buttons=buttons)
+        dispatcher.utter_message(text="")
         return [SlotSet("doctors_search_results_readable", str(products_df.head(n_search_results)))]
         
 #class ActionGetProductReview(Action):
