@@ -1,15 +1,17 @@
 import requests
+from requests.exceptions import RequestException
 import json
 from typing import Union
 import time
 import pandas as pd
+import logging
+from geopy.geocoders import Nominatim
+import re
 
-
-def get_available_doctors(location: Union[str,int], availabilities: Union[str,int]) -> dict:
+def get_available_doctors(location: Union[str,int], availabilities: Union[str,int]=1):
 
     base_url='https://www.doctolib.de'
     speciality='kinderheilkunde-kinder-und-jugendmedizin'
-
 
     final_url=f"{base_url}/{speciality}/{location}?/availabilities={availabilities}&insurance_sector=public"
 
@@ -22,14 +24,36 @@ def get_available_doctors(location: Union[str,int], availabilities: Union[str,in
     user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36
     x-csrf-token: +AD1NNffpu2TUGR+i552cv/SJOdpo7KzgJOwVBys6r3/EBA3AwlvUidQ0R+FVeD3cUpNqeH+LYB2447FTjv7Rg=="""
     headers = dict(line.strip().split(': ', 1) for line in headers.strip().split('\n') if ': ' in line)
-    result=requests.get(final_url,headers=headers).json()
-    result_data = dict(json.loads(json.dumps(result)))['data']['doctors']
 
-    result_df = pd.DataFrame({'name' : [result_data[i]['name_with_title'] for i in range(3)],
+    try:
+        response=requests.get(final_url,headers=headers)
+        response.raise_for_status()
+        
+        result_data = dict(json.loads(json.dumps(response.json())))['data']['doctors']
+        return pd.DataFrame({'name' : [result_data[i]['name_with_title'] for i in range(3)],
                  'address': [result_data[i]['address'] for i in range(3)]
                  })
 
-    
-    return result_df
+    except RequestException as e:
+        return None 
 
-print(get_available_doctors(location='muenchen', availabilities='test'))
+    
+def get_city_from_postcode(post_code):
+    geolocator = Nominatim(user_agent="geoapi")
+    location = geolocator.geocode(post_code)
+    if location:
+        return location.address
+    else:
+        return "City not found"
+
+
+
+# Example usage
+#postcode = "70174" 
+#city = get_city_from_postcode(postcode)
+#print(f"City for postcode {postcode}: {city}")
+
+print(get_available_doctors(location='80636-muenchen', availabilities=2))
+
+
+
