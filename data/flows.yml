@@ -23,7 +23,7 @@ flows:
         next: END
   
   find_best_product:
-    description: Find products the user searches on Amazon. Show information about the price, ratings and whether is available on Prime.
+    description: The users wants to buy a baby related product and you need to help find this product on Amazon.
     steps:
       - collect: searched_product
       - collect: retailer 

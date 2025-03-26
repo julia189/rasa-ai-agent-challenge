@@ -48,6 +48,15 @@ slots:
     mappings:
       - type: from_llm
       #TODO: take also from entity, so at any point in the conversation
+  n_search_result:
+    type: float
+    initial_value: 3.0
+  sorting_attribute:
+    type: text
+    initial_value: rating
+    mappings:
+      - type: from_llm
+
 
 responses:
 

@@ -31,15 +31,20 @@ class ActionGetProductResponse(Action):
         retailer = tracker.get_slot("retailer")
         n_search_results = tracker.get_slot('n_search_result')
         sorting_attribute = tracker.get_slot('sorting_attribute')
+
+        if not isinstance(n_search_results, int):
+            print("Convert n_search_results to integer")
+            n_search_results = int(n_search_results)
     
         products_df = get_products(search_word=searched_product_string, retailer=retailer,  n_search_results=n_search_results, sorting_attribute=sorting_attribute)
         buttons = []
         products_df['url'].apply(lambda value_ : buttons.append({"title" : "Buy product", "payload": value_}))
 
         dispatcher.utter_message(buttons=buttons)
+        return [SlotSet("doctors_search_results_readable", str(products_df.head(n_search_results)))]
         
-class ActionGetProductReview(Action):
-    pass 
+#class ActionGetProductReview(Action):
+ #  pass 
 
 
 

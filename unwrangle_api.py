@@ -7,7 +7,7 @@ UNWRANGLE_API_KEY = os.getenv('UNWRANGLE_API_KEY')
 
 PRODUCT_INFORMATION_COLS = ['name', 'price', 'brand', 'url', 'rating', 'is_prime', 'shipping_info']
 
-def get_products(search_word: str, retailer: str, n_search_results, sorting_attribute: str):
+def get_products(search_word: str, retailer: str, n_search_results: int, sorting_attribute: str):
 
     #country_dict = {'USA': 'us'}
 
@@ -21,9 +21,10 @@ def get_products(search_word: str, retailer: str, n_search_results, sorting_attr
         products_df = pd.DataFrame(data['results'])
 
         if sorting_attribute == 'rating':
-            products_df = products_df.sort_values(by='rating', ascending=False)
+            products_df = products_df.sort_values(by='rating', ascending=False).reset_index(drop=True)
         elif sorting_attribute == 'price':
-            products_df = products_df.sort_values(by='price', ascending=True)
+            products_df = products_df.sort_values(by='price', ascending=True).reset_index(drop=True)
+
 
     products_df = products_df.head(n_search_results)  
 
@@ -31,4 +32,5 @@ def get_products(search_word: str, retailer: str, n_search_results, sorting_attr
    
     return products_df
 
-print(get_products("baby phone", retailer='amazon', n_search_results=3, sorting_attribute='price'))
+#print(get_products("baby phone", retailer='amazon', n_search_results=3, sorting_attribute='rating'))
+print(int(2.3))
