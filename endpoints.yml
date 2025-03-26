@@ -52,6 +52,13 @@ model_groups:
   - id: rasa_command_generation_model
     models:
       - provider: rasa
-        model: rasa/cmd_gen_codellama_13b_calm_demo
+        model: rasa/cmd_gen_codellama_13b_calm_demo   
         api_base: "https://tutorial-llm.rasa.ai"
-
+  #- id: enterprise_search_generation
+   # models:
+    #  - provider: "openai"
+     #   model: "gpt-4o"
+  #- id: enterprise_search_embeddings
+  #  models:
+   #   - provider: "openai"
+    #    model: "text-embedding-ada-002"

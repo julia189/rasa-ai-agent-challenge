@@ -6,9 +6,16 @@ pipeline:
     model_group: rasa_command_generation_model
   flow_retrieval:
     active: false
-    
+
 policies:
 - name: FlowPolicy
-#  - name: EnterpriseSearchPolicy
-assistant_id: 20250312-202153-chewy-canity
-
+#- name: EnterpriseSearchPolicy
+ # llm:    # The model for response generation
+ #   model_group: enterprise_search_generation
+  #embeddings:   # The model for your embeddings
+  #  model_group: enterprise_search_embeddings
+ # vector_store:
+  #  type: "faiss"
+   # source: "./docs"   # The path to the folder where your text files are stored
+#assistant_id: 20250326-131301-generous-shares
+assistant_id: 20250326-140758-smoked-aqueduct
