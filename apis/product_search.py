@@ -71,3 +71,4 @@ def search_products(search_query: str, retailer: str, n_search_results: int, sor
 
     # Print prettified response to stdout.
     pprint(response.json())
+

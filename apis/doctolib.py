@@ -53,7 +53,9 @@ def get_city_from_postcode(post_code):
 #city = get_city_from_postcode(postcode)
 #print(f"City for postcode {postcode}: {city}")
 
-print(get_available_doctors(location='80636-muenchen', availabilities=2))
+#print(get_available_doctors(location='80636-muenchen', availabilities=2))
 
-
-
+def _is_valid_postcode(postcode):
+    pattern = r'^\d{5}?$'  
+    return bool(re.match(pattern, postcode))
+print(_is_valid_postcode("72145"))

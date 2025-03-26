@@ -3,6 +3,7 @@ version: "3.1"
 slots:
   is_correct_location:
     type: bool
+    initial_value: false
     mappings:
       - type: from_llm
   baby_data_request:
@@ -28,8 +29,6 @@ slots:
   doctor_location:
     type: text
     mappings:
-     # - type: from_entity
-      #  entity: current_location
       - type: from_llm
   search_doctor_answer:
     type: bool
@@ -191,8 +190,11 @@ responses:
           {{current_input}}
           Suggested AI Response:
   
-utter_sorry_missunderstood:
-  - text: "Sorry I cannot process your input because it seems to be invalid. Can you please try again?"
+  utter_sorry_missunderstood:
+    - text: "Sorry I cannot process your input because it seems to be invalid. Can you please try again?"
+
+  utter_restart:
+    - text: "Sorry something went wrong. We will reset the conversation."
 
 actions:
     - check_nannys_available
