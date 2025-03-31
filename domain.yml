@@ -67,7 +67,10 @@ slots:
     type: text
     mappings:
       - type: from_llm
-
+  duration:
+    type: float
+    mappings:
+      - type: from_llm
 
 responses:
 
@@ -196,12 +199,17 @@ responses:
   utter_restart:
     - text: "Sorry something went wrong. We will reset the conversation."
 
+  utter_ask_duration:
+    - text: "How long has the baby had these symptoms?"
+      metadata:
+        rephrase: True
+
 actions:
     - check_nannys_available
     - action_get_available_doctors
     - action_find_youtube_videos
     - action_get_baby_data_response
-    - run_internet_search
+    - action_run_internet_search
     - action_get_product_response
     - action_summarize_youtube_video
     - action_check_if_postcode

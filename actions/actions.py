@@ -4,6 +4,7 @@ from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet
 from apis.doctolib import get_available_doctors, get_city_from_postcode
 from apis.product_search import get_products
+from apis.symptoms_search import get_search_results
 import re
 
 class ActionGetDoctorAppointment(Action):
@@ -106,3 +107,21 @@ class ActionGetBabyDataResponse(Action):
 def _is_valid_postcode(postcode):
     pattern = r'^\d{5}?$'  
     return bool(re.match(pattern, postcode))
+
+
+class ActionRunInternetSearch(Action):
+    def name(self) -> Text:
+        return "action_run_internet_search"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        symptoms = tracker.get_slot("symptoms")
+        duration = tracker.get_slot("duration")
+        search_results = get_search_results(symptoms, duration)
+        
+        if search_results:
+            results_readable = "\n".join([f"Title: {result['snippet']}\n Link: {result['link']}" for result in search_results])
+            dispatcher.utter_message(text=f"Here are some articles that might help:\n{results_readable}")
+        else:
+            dispatcher.utter_message(text="Sorry, I couldn't find any relevant articles.")
+        
+        return []

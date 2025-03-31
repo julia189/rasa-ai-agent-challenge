@@ -3,7 +3,9 @@ flows:
     description: Help users to find information about the symptoms their baby has.
     steps:
       - collect: symptoms
-      - action: run_internet_search
+      - collect: duration
+        description: "How long has the baby had these symptoms?"
+      - action: action_run_internet_search
       - action: utter_ask_search_doctor_answer
       - collect: search_doctor_answer
         next:
