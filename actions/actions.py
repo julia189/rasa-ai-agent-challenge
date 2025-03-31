@@ -5,7 +5,7 @@ from rasa_sdk.events import SlotSet
 from apis.doctolib import get_available_doctors, get_city_from_postcode
 from apis.product_search import get_products
 from apis.symptoms_search import get_search_results
-from apis.youtube_client import get_youtube_recommendations, get_text_from_video
+from apis.youtube_client import get_youtube_recommendations, get_text_from_video, create_chunks
 import re
 
 class ActionGetDoctorAppointment(Action):
@@ -93,11 +93,11 @@ class ActionGetYoutubeVideos(Action):
             tracker: Tracker, 
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         
-        search_string = tracker.get_slot("youtube_search_string")
+        search_string = tracker.get_slot("video_content")
         result = get_youtube_recommendations(query=search_string)
 
-        if response:
-            results_readable = "\n".join(["Title: " + item_['snippet']['title'] + "\n Description: " + item_['description'] 
+        if result:
+            results_readable = "\n".join([item_['snippet']['title'] + "\n Description: " + item_['snippet']['description'] 
             + f"\n [View video] (https://www.youtube.com/watch?v={item_['id']['videoId']})" for item_ in result])
             dispatcher.utter_message(text=f"Here are the top 3 videos \n: {results_readable}")
         else:
@@ -110,15 +110,19 @@ class ActionSummarizeYoutubeVideo(Action):
     def name(self) -> Text:
         return "action_summarize_youtube_video"
 
-    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]):
         
         video_position = tracker.get_slot("video_number")
         video_ids = tracker.get_slot("video_ids")
         video_id = video_ids.split(",")[video_position-1]
         transcript_text = get_text_from_video(video_id=video_id)
         chunks = create_chunks(transcript_text)
-        return chunks
 
+        summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
+        for chunk in chunks:
+            summary = summarizer(chunk, max_length=50, min_length=10, do_sample=False)
+            dispatcher.utter_message(text="Here is the summary {summary}")
+        return None 
 
 
 class ActionGetBabyDataResponse(Action):

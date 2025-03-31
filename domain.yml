@@ -75,6 +75,10 @@ slots:
     type: text
     mappings:
       - type: from_llm
+  video_ids:
+    type: text
+    mappings:
+      - type: from_llm
 
 responses:
 

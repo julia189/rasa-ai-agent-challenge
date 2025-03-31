@@ -13,7 +13,7 @@ YOUTUBE_API_KEY = os.getenv('YOUTUBE_API_KEY')
 
 
 
-def get_youtube_recommendations(query: str, max_results=3, order="viewCount", ):
+def get_youtube_recommendations(query: str, max_results=3):
 
     youtube_client = googleapiclient.discovery.build(
     api_service_name, api_version, developerKey = YOUTUBE_API_KEY)
@@ -23,28 +23,12 @@ def get_youtube_recommendations(query: str, max_results=3, order="viewCount", ):
     type = 'video',
     q = query,
     maxResults=max_results,
-    order=order,
+    videoDuration="long"
     )
 
     response = request.execute()
     
     return response['items']
-
-def parse_url(url: str) -> str:
-    """
-    Extract video ID from URL.
-
-    Args: 
-        url(str): youtube video url
-
-    Returns:
-        Youtube video's video ID
-    
-    """
-    if "=" in url:
-        return url.split("=")[-1]
-
-    return url
 
 
 def get_text_from_video(video_id: str) -> str:
