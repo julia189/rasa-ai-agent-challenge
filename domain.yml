@@ -71,6 +71,10 @@ slots:
     type: float
     mappings:
       - type: from_llm
+  video_number:
+    type: text
+    mappings:
+      - type: from_llm
 
 responses:
 
@@ -138,6 +142,20 @@ responses:
     - text: "What should the video be about?"
       metadata:
         repphrase: True
+
+  utter_ask_video_number:
+    - text: "Which video do you want to have summarized?"
+      metadata:
+        repphrase: True
+      buttons:
+      - title: "All"
+        payload: "/SetSlots(video_number=All)"
+      - title: "1"
+        payload: "/SetSlots(video_number=1)"
+      - title: "2"
+        payload: "/SetSlots(video_number=2)"
+      - title: "3"
+        payload: "/SetSlots(video_number=3)"
 
   utter_is_correct_location:
     - text: "Did you mean {slots.doctor_location}?"

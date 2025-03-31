@@ -80,6 +80,8 @@ flows:
         next:
           - if: slots.summary_required
             then: 
+              - action: utter_ask_video_number
+              - collect: video_number
               - action: action_summarize_youtube_video
                 next: END
           - else: 
