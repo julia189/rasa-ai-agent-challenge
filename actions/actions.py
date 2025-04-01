@@ -6,6 +6,7 @@ from apis.doctolib import get_available_doctors, get_city_from_postcode
 from apis.product_search import get_products
 from apis.symptoms_search import get_search_results
 from apis.youtube_client import get_youtube_recommendations, get_text_from_video, create_chunks
+from summarizer import Summarizer
 import re
 
 class ActionGetDoctorAppointment(Action):
@@ -66,23 +67,8 @@ class ActionCheckIfPostcode(Action):
             location_postcode_string = '-'.join(doctor_location, city)
             dispatcher.utter_message(text=f"Did you mean {location_postcode_string}?")
             return[SlotSet("is_postcode", True), SlotSet("doctor_location", location_postcode_string)]
-
-
-class ActionCheckAvailableNannys(Action):
-    def name(self) -> Text:
-        return "action_check_nannys_available"
-    
-    def run(self, 
-            dispatcher: CollectingDispatcher, 
-            tracker: Tracker, 
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
-        date_ = tracker.get_slot("nanny_date")
-        nanny_time = tracker.get_lot("nanny_time")
-        nanny_hours = tracker.get_slot("nanny_hours")
-
-        return super().run(dispatcher, tracker, domain)
-
+        else:
+            return[SlotSet("is_postcode", False)]
 
 class ActionGetYoutubeVideos(Action):
     def name(self) -> Text:
@@ -114,24 +100,15 @@ class ActionSummarizeYoutubeVideo(Action):
         
         video_position = tracker.get_slot("video_number")
         video_ids = tracker.get_slot("video_ids")
-        video_id = video_ids.split(",")[video_position-1]
+        video_id = video_ids.split(",")[int(video_position)-1]
         transcript_text = get_text_from_video(video_id=video_id)
         chunks = create_chunks(transcript_text)
 
-        summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
+        model = Summarizer()
         for chunk in chunks:
-            summary = summarizer(chunk, max_length=50, min_length=10, do_sample=False)
-            dispatcher.utter_message(text="Here is the summary {summary}")
+            summary = model(chunk, num_sentences=4)
+            dispatcher.utter_message(text=f"Here is the summary {summary}")
         return None 
-
-
-class ActionGetBabyDataResponse(Action):
-    def name(self) -> Text:
-        return "action_get_baby_data_response"
-
-    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker,domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-            baby_data_request = tracker.get_slot("baby_data_request")
-            
 
 
 def _is_valid_postcode(postcode):

@@ -152,8 +152,6 @@ responses:
       metadata:
         repphrase: True
       buttons:
-      - title: "All"
-        payload: "/SetSlots(video_number=All)"
       - title: "1"
         payload: "/SetSlots(video_number=1)"
       - title: "2"

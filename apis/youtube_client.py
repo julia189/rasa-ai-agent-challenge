@@ -1,17 +1,12 @@
 import googleapiclient.discovery
 import os
+from youtube_transcript_api import YouTubeTranscriptApi
+from langchain_text_splitters.character import RecursiveCharacterTextSplitter
 
 api_service_name = "youtube"
 api_version = "v3"
 
 YOUTUBE_API_KEY = os.getenv('YOUTUBE_API_KEY')
-
-
-# 'request' variable is the only thing you must change
-# depending on the resource and method you need to use
-# in your query
-
-
 
 def get_youtube_recommendations(query: str, max_results=3):
 
@@ -42,18 +37,9 @@ def get_text_from_video(video_id: str) -> str:
         return f"Failed to retrieve transcript: {str(e)}"
 
 def create_chunks(transcript_text: str) -> list:
-    """
-    Split transcript text into processable chunks.
-
-    Args:
-        transcript_text (str): Youtube video's transcripted text
-
-    Returns:
-        processable chunks
-    
-    """
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
     chunks = text_splitter.split_text(transcript_text)
     return chunks
 
-get_youtube_recommendations(query='positive birthing stories')
+#get_youtube_recommendations(query='positive birthing stories')
+print(get_text_from_video('8G9MAYnGp5g'))
