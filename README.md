@@ -6,7 +6,14 @@ Based on RASAS Quickstart project. Find here:
 **Set Up Environment:**
    - In the codespace, open the `.env` file from this repo and add your license key to that file.
      ```
-     RASA_PRO_LICENSE='your_rasa_pro_license_key_here'
+      RASA_PRO_LICENSE='your_rasa_pro_license_key_here'
+      UNWRANGLE_API_KEY='your unwrangle API key here'
+      OPENAI_API_KEY='your OPEN AI Key here'
+      GOOGLE_API_KEY='your google API key here'
+      YOUTUBE_API_KEY='your google API key here'
+      SEARCH_ENGINE_ID='your search engine id here'
+      OXYLABS_USERNAME='your oxylab username'
+      OXYLABS_PASSWORD='your oxylab password'
      ```
    - Set this environment variables by running 
      ```

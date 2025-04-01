@@ -34,9 +34,6 @@ def get_products(search_word: str, retailer: str, n_search_results: int, sorting
    
     return products_df
 
-#print(get_products("baby phone", retailer='amazon', n_search_results=3, sorting_attribute='rating'))
-print(int(2.3))
-
 def create_oxylab_client():
     OXYLABS_USERNAME = os.getenv("OXYLABS_USERNAME")
     OXYLABS_PASSWORD = os.getenv("OXYLABS_PASSWORD")
@@ -68,7 +65,7 @@ def search_products(search_query: str, retailer: str, n_search_results: int, sor
     auth=(USER_NAME, PASSWORD),
     json=payload,
 )   
+    result = json.loads(response.text)['results']
+    return result
 
-    # Print prettified response to stdout.
-    pprint(response.json())
-
+print(search_products(search_query="baby phone", retailer="amazon", n_search_results=3, sorting_attribute='price'))
