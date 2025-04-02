@@ -2,8 +2,8 @@ import requests
 import os
 import json
 import pandas as pd 
-#from oxylabs import RealtimeClient
-import pprint
+from oxylabs import RealtimeClient
+import logging
 
 UNWRANGLE_API_KEY = os.getenv('UNWRANGLE_API_KEY')
 
@@ -57,14 +57,18 @@ def search_products(search_query: str, retailer: str, n_search_results: int, sor
 
     USER_NAME = os.getenv("OXYLABS_USERNAME")
     PASSWORD = os.getenv("OXYLABS_PASSWORD")
+    try:
+        response = requests.request(
+        'POST',
+        'https://realtime.oxylabs.io/v1/queries',
+        auth=(USER_NAME, PASSWORD),
+        json=payload,
+    )   
+        result = json.loads(response.text)['results']
+    except Exception as e:
+        logging.error(e)
+        result = None 
 
-    response = requests.request(
-    'POST',
-    'https://realtime.oxylabs.io/v1/queries',
-    auth=(USER_NAME, PASSWORD),
-    json=payload,
-)   
-    result = json.loads(response.text)['results']
     return result
 
-#print(search_products(search_query="baby phone", retailer="amazon", n_search_results=3, sorting_attribute='price'))
+print(search_products(search_query="baby phone", retailer="amazon", n_search_results=3, sorting_attribute='price'))

@@ -27,24 +27,24 @@ class ActionGetDoctorAppointment(Action):
         return [SlotSet("doctors_search_results_readable", str(results_readable))]
 
 
-#class ActionGetProductResponse(Action):
- #   def name(self) -> Text:
- #       return "action_get_product_response"
- #   
- #   def run(self, dispatcher, tracker, domain) -> List[Dict[Text, Any]]:
- #       
- #       searched_product_string = tracker.get_slot("searched_product")
- #       retailer = tracker.get_slot("retailer")
- #       n_search_results = tracker.get_slot('n_search_result')
-  #      sorting_attribute = tracker.get_slot('sorting_attribute')
-#
- #       if not isinstance(n_search_results, int):
-  #          print("Convert n_search_results to integer")
-  #          n_search_results = int(n_search_results)
-  #  
-  #      products_df = get_products(search_word=searched_product_string, retailer=retailer,  n_search_results=n_search_results, sorting_attribute=sorting_attribute)
-  #      product_search_results_readable = "\n".join() #TODO: fix 
-  #      return [SlotSet("product_search_results_readable", str(products_df.head(n_search_results)))]
+class ActionGetProductResponse(Action):
+    def name(self) -> Text:
+        return "action_get_product_response"
+    
+    def run(self, dispatcher, tracker, domain) -> List[Dict[Text, Any]]:
+        
+        searched_product_string = tracker.get_slot("searched_product")
+        retailer = tracker.get_slot("retailer")
+        n_search_results = tracker.get_slot('n_search_result')
+        sorting_attribute = tracker.get_slot('sorting_attribute')
+
+        if not isinstance(n_search_results, int):
+            print("Convert n_search_results to integer")
+            n_search_results = int(n_search_results)
+    
+        products_df = get_products(search_word=searched_product_string, retailer=retailer,  n_search_results=n_search_results, sorting_attribute=sorting_attribute)
+        product_search_results_readable = "\n".join() #TODO: fix 
+        return [SlotSet("product_search_results_readable", str(products_df.head(n_search_results)))]
         
 #class ActionGetProductReview(Action):
  #  pass 
