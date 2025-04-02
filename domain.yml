@@ -53,6 +53,8 @@ slots:
       #TODO: take also from entity, so at any point in the conversation
   n_search_result:
     type: float
+    min_value: 0.0
+    max_value: 5.0 
     initial_value: 3.0
   sorting_attribute:
     type: text
