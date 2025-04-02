@@ -2,6 +2,7 @@ import googleapiclient.discovery
 import os
 from youtube_transcript_api import YouTubeTranscriptApi
 from langchain_text_splitters.character import RecursiveCharacterTextSplitter
+import pprint
 
 api_service_name = "youtube"
 api_version = "v3"
@@ -29,7 +30,7 @@ def get_youtube_recommendations(query: str, max_results=3):
 def get_text_from_video(video_id: str) -> str:
 
     try:
-        transcript = YouTubeTranscriptApi.get_transcript(video_id)
+        transcript = YouTubeTranscriptApi.get_transcript(video_id=video_id, languages=("en", "de"))
         transcript_text = " ".join([entry["text"] for entry in transcript])
         transcript_text = transcript_text.replace("\n", " ").replace("'", "")
         return transcript_text
@@ -41,5 +42,5 @@ def create_chunks(transcript_text: str) -> list:
     chunks = text_splitter.split_text(transcript_text)
     return chunks
 
-#get_youtube_recommendations(query='positive birthing stories')
-print(get_text_from_video('8G9MAYnGp5g'))
+pprint(get_youtube_recommendations(query='positive birthing stories'))
+#print(get_text_from_video('8G9MAYnGp5g'))

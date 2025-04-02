@@ -8,6 +8,7 @@ def get_available_doctors(location: Union[str,int], availabilities: Union[str,in
 
     base_url='https://www.doctolib.de'
     speciality='kinderheilkunde-kinder-und-jugendmedizin'
+    location=location.lower()
 
     final_url=f"{base_url}/{speciality}/{location}?/availabilities={availabilities}&insurance_sector=public"
 
