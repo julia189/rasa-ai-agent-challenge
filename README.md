@@ -1,13 +1,12 @@
 ## RASA-AI-AGENT-CHALLENGE
 
-Based on RASAS Quickstart project. Find here: 
+This project is created for the RASA AI Agent Challenge 2024. 
 
 
 **Set Up Environment:**
-   - In the codespace, open the `.env` file from this repo and add your license key to that file.
-     ```
+   - Create a `.env` file. Add the ```RASA_PRO_LICENSE``` and the following API Keys to the file:
+      ```
       RASA_PRO_LICENSE='your_rasa_pro_license_key_here'
-      UNWRANGLE_API_KEY='your unwrangle API key here'
       OPENAI_API_KEY='your OPEN AI Key here'
       GOOGLE_API_KEY='your google API key here'
       YOUTUBE_API_KEY='your google API key here'
@@ -15,29 +14,28 @@ Based on RASAS Quickstart project. Find here:
       OXYLABS_USERNAME='your oxylab username'
       OXYLABS_PASSWORD='your oxylab password'
      ```
-   - Set this environment variables by running 
+   - Set these environment variables by running 
      ```
      source .env
      ```
-   - Activate your python environment by running
+   - Create and activate your python environment by running
      ```
+     python3 -m venv .venv
      source .venv/bin/activate
      ```
+   - Install the requirements by running
+     ```
+     pip install -r requirements.txt
+     ```
+ **RASA Commands:**
+   - 
+     ```
+     rasa train  #trains the model
+     rasa inspect, rasa inspect --debug #runs the inspector
+     rasa run actions # runs the actions 
+     ```
 
- **Train the Model:**
-   - In the terminal, run:
-     ```
-     rasa train
-     ```
-
-**Talk to your Bot:**
-   - In the terminal, run
-     ```
-     rasa inspect
-     ```
-     GitHub will show a notification, click on the green button to view the inspector where you can chat with your assistant.
-
-c**Run Custom Actions:**
+**Run Custom Actions:**
   In Rasa 3.10 and later, custom actions are automatically run as part of your running assistant. To double-check that this is set up correctly, ensure that your `endpoints.yml` file contains the following configuration:
    ```
    action_endpoint:

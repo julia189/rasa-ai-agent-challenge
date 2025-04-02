@@ -2,12 +2,11 @@ from typing import Any, Text, Dict, List
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet
-from apis.doctolib import get_available_doctors, get_city_from_postcode
+from apis.doctolib import get_available_doctors
 from apis.product_search import get_products
 from apis.symptoms_search import get_search_results
 from apis.youtube_client import get_youtube_recommendations, get_text_from_video, create_chunks
 from summarizer import Summarizer
-import re
 
 class ActionGetDoctorAppointment(Action):
     def name(self) -> Text:
@@ -20,55 +19,35 @@ class ActionGetDoctorAppointment(Action):
         top_3_doctors_df = get_available_doctors(location=doctor_location, availabilities=availability)
 
         if top_3_doctors_df is not None:
-            results_readable = "\n".join(["Name: " + doctor_['name'] + "Address: " + doctor_['address'] for _, doctor_ in top_3_doctors_df.iterrows()])
-            dispatcher.utter_message(text=f"Here are three doctors that are available \n: {results_readable}")
+            results_readable = "\n".join([doctor_['name'] + "\n Address: " + doctor_['address'] for _, doctor_ in top_3_doctors_df.iterrows()])
+            dispatcher.utter_message(text=f"Here are three dcotors that are available in {availability} day:\n {results_readable}")
         else:
             results_readable = None
             dispatcher.utter_message(text=f"I'm sorry something did not work out, please try again.")
         return [SlotSet("doctors_search_results_readable", str(results_readable))]
-#rasa run actions
 
 
-class ActionGetProductResponse(Action):
-    def name(self) -> Text:
-        return "action_get_product_response"
-    
-    def run(self, dispatcher, tracker, domain) -> List[Dict[Text, Any]]:
-        
-        searched_product_string = tracker.get_slot("searched_product")
-        retailer = tracker.get_slot("retailer")
-        n_search_results = tracker.get_slot('n_search_result')
-        sorting_attribute = tracker.get_slot('sorting_attribute')
-
-        if not isinstance(n_search_results, int):
-            print("Convert n_search_results to integer")
-            n_search_results = int(n_search_results)
-    
-        products_df = get_products(search_word=searched_product_string, retailer=retailer,  n_search_results=n_search_results, sorting_attribute=sorting_attribute)
-        product_search_results_readable = "\n".join() #TODO: fix 
-        return [SlotSet("product_search_results_readable", str(products_df.head(n_search_results)))]
+#class ActionGetProductResponse(Action):
+ #   def name(self) -> Text:
+ #       return "action_get_product_response"
+ #   
+ #   def run(self, dispatcher, tracker, domain) -> List[Dict[Text, Any]]:
+ #       
+ #       searched_product_string = tracker.get_slot("searched_product")
+ #       retailer = tracker.get_slot("retailer")
+ #       n_search_results = tracker.get_slot('n_search_result')
+  #      sorting_attribute = tracker.get_slot('sorting_attribute')
+#
+ #       if not isinstance(n_search_results, int):
+  #          print("Convert n_search_results to integer")
+  #          n_search_results = int(n_search_results)
+  #  
+  #      products_df = get_products(search_word=searched_product_string, retailer=retailer,  n_search_results=n_search_results, sorting_attribute=sorting_attribute)
+  #      product_search_results_readable = "\n".join() #TODO: fix 
+  #      return [SlotSet("product_search_results_readable", str(products_df.head(n_search_results)))]
         
 #class ActionGetProductReview(Action):
  #  pass 
-
-class ActionCheckIfPostcode(Action):
-    def name(self) -> Text:
-        return "action_check_if_postcode"
-    
-    def run(self, 
-            dispatcher: CollectingDispatcher, 
-            tracker: Tracker, 
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        
-        doctor_location = tracker.get_slot("doctor_location")
-        if _is_valid_postcode(doctor_location):
-            dispatcher.utter_message(text=f"I am checking if I find a city for this postcode.")
-            city = get_city_from_postcode(doctor_location).split(',')[1]
-            location_postcode_string = '-'.join(doctor_location, city)
-            dispatcher.utter_message(text=f"Did you mean {location_postcode_string}?")
-            return[SlotSet("is_postcode", True), SlotSet("doctor_location", location_postcode_string)]
-        else:
-            return[SlotSet("is_postcode", False)]
 
 class ActionGetYoutubeVideos(Action):
     def name(self) -> Text:
@@ -109,12 +88,6 @@ class ActionSummarizeYoutubeVideo(Action):
             summary = model(chunk, num_sentences=4)
             dispatcher.utter_message(text=f"Here is the summary {summary}")
         return None 
-
-
-def _is_valid_postcode(postcode):
-    pattern = r'^\d{5}?$'  
-    return bool(re.match(pattern, postcode))
-
 
 class ActionRunInternetSearch(Action):
     def name(self) -> Text:

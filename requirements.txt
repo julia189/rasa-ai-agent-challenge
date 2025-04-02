@@ -1,5 +1,7 @@
-requests==2.32.3
-youtube-transcript-api==1.0.3
 google-api-python-client==2.24.0
-geopy==2.2.0
 oxylabs==2.0.0
+pandas==2.2.3
+rasa-pro==3.12.3
+requests==2.32.3
+summarizer
+youtube-transcript-api==1.0.3

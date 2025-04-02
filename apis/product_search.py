@@ -2,7 +2,7 @@ import requests
 import os
 import json
 import pandas as pd 
-from oxylabs import RealtimeClient
+#from oxylabs import RealtimeClient
 import pprint
 
 UNWRANGLE_API_KEY = os.getenv('UNWRANGLE_API_KEY')
@@ -29,7 +29,6 @@ def get_products(search_word: str, retailer: str, n_search_results: int, sorting
 
 
     products_df = products_df.head(n_search_results)  
-
     products_df = products_df[PRODUCT_INFORMATION_COLS]
    
     return products_df
@@ -68,4 +67,4 @@ def search_products(search_query: str, retailer: str, n_search_results: int, sor
     result = json.loads(response.text)['results']
     return result
 
-print(search_products(search_query="baby phone", retailer="amazon", n_search_results=3, sorting_attribute='price'))
+#print(search_products(search_query="baby phone", retailer="amazon", n_search_results=3, sorting_attribute='price'))
