@@ -81,17 +81,12 @@ slots:
     type: text
     mappings:
       - type: from_llm
+  video_titles:
+    type: text
+    mappings:
+      - type: from_llm
 
 responses:
-
-  utter_ask_recipient:
-    - text: "Who would you like to send money to?"
-
-  utter_ask_amount:
-    - text: "How much money would you like to send?"
-
-  utter_transfer_complete:
-    - text: "All done. {amount} has been sent to {recipient}."
 
   utter_ask_baby_data_request:
     - text: "What information should I look for?"
