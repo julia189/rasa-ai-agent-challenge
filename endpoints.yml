@@ -54,6 +54,13 @@ model_groups:
       - provider: rasa
         model: rasa/cmd_gen_codellama_13b_calm_demo   
         api_base: "https://tutorial-llm.rasa.ai"
+  - id: openai-direct
+    models:
+      - provider: openai
+        model: gpt-3.5-turbo
+        api_key: ${OPENAI_API_KEY}
+
+
   #- id: enterprise_search_generation
    # models:
     #  - provider: "openai"

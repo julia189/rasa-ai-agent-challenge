@@ -1,9 +1,10 @@
 recipe: default.v1
 language: en
 pipeline:
-- name: SingleStepLLMCommandGenerator
+- name: CompactLLMCommandGenerator
+  minimize_num_calls: true
   llm:
-    model_group: rasa_command_generation_model
+    model_group: openai-direct
   flow_retrieval:
     active: false
 
