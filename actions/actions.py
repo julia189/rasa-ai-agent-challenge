@@ -6,7 +6,7 @@ from apis.doctolib import get_available_doctors
 from apis.product_search import get_products
 from apis.symptoms_search import get_search_results
 from apis.youtube_client import get_youtube_recommendations, get_text_from_video, create_chunks
-from summarizer import Summarizer
+from summarizer import summarize
 
 class ActionGetDoctorAppointment(Action):
     def name(self) -> Text:
@@ -68,7 +68,8 @@ class ActionGetYoutubeVideos(Action):
         else:
             results_readable = None
             dispatcher.utter_message(text=f"I'm sorry something did not work out, please try again.")
-        return [SlotSet("video_ids", str(','.join([item_['id']['videoId'] for item_ in result])))]
+        return [SlotSet("video_ids", str(','.join([item_['id']['videoId'] for item_ in result]))), 
+                SlotSet("video_titles"), str(','.join([item_['snippet']['title'] for item_ in result]))]
 
 
 class ActionSummarizeYoutubeVideo(Action):
@@ -79,13 +80,14 @@ class ActionSummarizeYoutubeVideo(Action):
         
         video_position = tracker.get_slot("video_number")
         video_ids = tracker.get_slot("video_ids")
+        video_titles = tracker.get_slot("video_titles")
         video_id = video_ids.split(",")[int(video_position)-1]
+        video_title = video_titles.split(",")[int(video_position)-1]
         transcript_text = get_text_from_video(video_id=video_id)
         chunks = create_chunks(transcript_text)
 
-        model = Summarizer()
         for chunk in chunks:
-            summary = model(chunk, num_sentences=4)
+            summary = summarize(title=video_title, text=chunk, count=2)
             dispatcher.utter_message(text=f"Here is the summary {summary}")
         return None 
 
