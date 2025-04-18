@@ -35,6 +35,6 @@ def get_available_doctors(location: Union[str,int], availabilities: Union[str,in
         return None 
 
 
-print(get_available_doctors(location='stuttgart', availabilities=1))
+#print(get_available_doctors(location='stuttgart', availabilities=1))
 
 

@@ -59,6 +59,7 @@ model_groups:
       - provider: openai
         model: gpt-3.5-turbo
         api_key: ${OPENAI_API_KEY}
+        timeout: 20
 
 
   #- id: enterprise_search_generation

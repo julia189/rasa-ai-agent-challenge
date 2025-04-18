@@ -71,4 +71,4 @@ def search_products(search_query: str, retailer: str, n_search_results: int, sor
 
     return result
 
-print(search_products(search_query="baby phone", retailer="amazon", n_search_results=3, sorting_attribute='price'))
+#print(search_products(search_query="baby phone", retailer="amazon", n_search_results=3, sorting_attribute='price'))
