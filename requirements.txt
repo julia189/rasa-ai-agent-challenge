@@ -5,3 +5,4 @@ rasa-pro==3.12.3
 requests==2.32.3
 summarizer
 youtube-transcript-api==1.0.3
+sanic
