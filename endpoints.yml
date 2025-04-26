@@ -56,10 +56,10 @@ model_groups:
         api_base: "https://tutorial-llm.rasa.ai"
   - id: openai-direct
     models:
-      - provider: openai
+      - provider: "openai"
         model: gpt-3.5-turbo
         api_key: ${OPENAI_API_KEY}
-        timeout: 20
+        timeout: 40
 
 
   #- id: enterprise_search_generation
