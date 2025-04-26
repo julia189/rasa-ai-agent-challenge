@@ -2,7 +2,7 @@ import requests
 import os
 import json
 import pandas as pd 
-from oxylabs import RealtimeClient
+#from oxylabs import RealtimeClient
 import logging
 
 UNWRANGLE_API_KEY = os.getenv('UNWRANGLE_API_KEY')
@@ -33,11 +33,12 @@ def get_products(search_word: str, retailer: str, n_search_results: int, sorting
    
     return products_df
 
-def create_oxylab_client():
-    OXYLABS_USERNAME = os.getenv("OXYLABS_USERNAME")
-    OXYLABS_PASSWORD = os.getenv("OXYLABS_PASSWORD")
-    oxy_client = RealtimeClient(OXYLABS_USERNAME, OXYLABS_PASSWORD)
-    return oxy_client
+
+#def create_oxylab_client():
+ #   OXYLABS_USERNAME = os.getenv("OXYLABS_USERNAME")
+  #  OXYLABS_PASSWORD = os.getenv("OXYLABS_PASSWORD")
+  #  oxy_client = RealtimeClient(OXYLABS_USERNAME, OXYLABS_PASSWORD)
+  #  return oxy_client
 
 def search_products(search_query: str, retailer: str, n_search_results: int, sorting_attribute:str):
 
