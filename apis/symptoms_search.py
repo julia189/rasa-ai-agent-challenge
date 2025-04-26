@@ -18,4 +18,4 @@ def get_search_results(symptoms: str, duration: int):
     return results
 
 
-print(get_search_results("fever", 3))
+#print(get_search_results("fever", 3))
