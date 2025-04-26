@@ -6,7 +6,8 @@ from apis.doctolib import get_available_doctors
 from apis.product_search import get_products
 from apis.symptoms_search import get_search_results
 from apis.youtube_client import get_youtube_recommendations, get_text_from_video, create_chunks
-from summarizer import summarize
+from transformers import pipeline
+import torch
 
 class ActionGetDoctorAppointment(Action):
     def name(self) -> Text:
@@ -82,12 +83,17 @@ class ActionSummarizeYoutubeVideo(Action):
         video_ids = tracker.get_slot("video_ids")
         video_titles = tracker.get_slot("video_titles")
         video_id = video_ids.split(",")[int(video_position)-1]
-        video_title = video_titles.split(",")[int(video_position)-1]
+        #video_title = video_titles.split(",")[int(video_position)-1]
         transcript_text = get_text_from_video(video_id=video_id)
         chunks = create_chunks(transcript_text)
 
+        summarizer = pipeline(model="facebook/bart-large-cnn", 
+                              task="summarization",
+                            torch_dtype=torch.bfloat16)
+
         for chunk in chunks:
-            summary = summarize(title=video_title, text=chunk, count=2)
+            #summary = summarize(title=video_title, text=chunk, count=2)
+            summary = summarizer(text=chunk, min_length=10, max_length=100)
             dispatcher.utter_message(text=f"Here is the summary {summary}")
         return None 
 

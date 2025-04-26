@@ -42,5 +42,5 @@ def create_chunks(transcript_text: str) -> list:
     chunks = text_splitter.split_text(transcript_text)
     return chunks
 
-pprint(get_youtube_recommendations(query='positive birthing stories'))
+#pprint(get_youtube_recommendations(query='positive birthing stories'))
 #print(get_text_from_video('8G9MAYnGp5g'))
